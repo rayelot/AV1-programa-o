@@ -26,4 +26,15 @@ def incluir_personagem():
         resposta.headers.add("Access-Control-Allow-Origin", "*")
     return resposta
 
+@app.route("/excluir_personagem/<int:personagem_id>", methods=['DELETE']) 
+def excluir_personagem(personagem_id): 
+    resposta = jsonify({"resultado": "ok", "detalhes": "ok"}) 
+    try: 
+        Personagem.query.filter(Personagem.id == personagem_id).delete()  
+        db.session.commit() 
+    except Exception as e:   
+        resposta = jsonify({"resultado":"erro", "detalhes":str(e)})  
+    resposta.headers.add("Access-Control-Allow-Origin", "*") 
+    return resposta
+
 app.run(debug=True, port=5000)
